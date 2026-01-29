@@ -1,0 +1,12 @@
+<div class="auth-wrapper">
+    <div class="auth-card">
+      <h2>{{ title }}</h2>
+      <p>{{ subtitle }}</p>
+
+      <ng-content></ng-content>
+
+      <div class="auth-footer">
+        <span>{{ footerText }} <a [routerLink]="footerLink">{{ footerLinkText }}</a></span>
+      </div>
+    </div>
+  </div>

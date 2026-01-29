@@ -1,0 +1,42 @@
+.board-wrapper {
+    background-color: #ffffff;
+    min-height: 100vh;
+  }
+  
+  .top-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 40px;
+    border-bottom: 1px solid #f0f0f0;
+    align-items: center;
+  }
+  
+  .nav-left { display: flex; gap: 10px; align-items: center; }
+  .logo { font-weight: 700; font-size: 18px; margin-right: 20px; color: #1e1f21; }
+  
+  .active-link {
+    font-weight: 600 !important;
+    border-bottom: 2px solid #1e1f21;
+    border-radius: 0;
+  }
+  
+  .board-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 40px;
+    align-items: center;
+  }
+  
+  .board-header h1 { font-size: 26px; font-weight: 600; margin: 0; color: #292d34; }
+  
+  .add-project-btn {
+    background-color: #4a86e8 !important; /* הצבע הכחול מהתמונה */
+    font-weight: 500;
+  }
+  
+  .kanban-container {
+    display: flex;
+    gap: 24px;
+    padding: 0 40px;
+    align-items: flex-start;
+  }

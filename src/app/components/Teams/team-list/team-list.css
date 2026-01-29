@@ -1,0 +1,232 @@
+/* 
+.teams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    padding-top: 20px;
+}
+
+.team-card {
+    border: 1px solid var(--border-color);
+    background: white;
+    border-radius: 8px; 
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        border-color: var(--clickup-purple);
+    }
+
+    .team-avatar {
+      background-color: var(--clickup-purple);
+      color: white;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    mat-card-header {
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+    }
+
+    mat-card-title {
+      color: var(--clickup-gray);
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .description {
+      color: var(--clickup-text-sub);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 42px; 
+    }
+
+    mat-card-actions {
+        padding: 16px;
+        border-top: 1px solid var(--border-light-gray, #f0f0f0);
+    }
+} */
+ /* הרקע של כל העמוד */
+/* ריכוז כל המשתנים במקום אחד - מודולריות מלאה */
+:root {
+  /* רקע לבן מוחלט להכל */
+  --bg-main: #ffffff;
+  --bg-card: #ffffff; 
+  
+  /* צבע כותרת כרטיס - אפור בהיר מאוד במקום ורוד, למראה נקי */
+  --bg-card-header: #f7f8f9; 
+  
+  --border-color: #eceef1;
+  --text-main: #292d34;
+  --text-sub: #7c828d;
+  --clickup-purple: #7b68ee;
+  --white: #ffffff;
+
+  /* צלליות עדינות במיוחד */
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --transition: all 0.2s ease-in-out;
+}
+/* :root {
+  צבעים
+  --bg-main: #ffffff;
+  --bg-card-header: #fdf2f5;
+  --border-color: #f0f1f3;
+  --text-main: #292d34;
+  --text-sub: #7c828d;
+  --white: #ffffff;
+  --black-badge: #1e1f21;
+  --more-icon: #b9bec7;
+
+  צלליות ומעברים
+  --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --card-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.08);
+  --transition: all 0.2s ease-in-out;
+} */
+
+/* הגדרות קונטיינר כלליות
+.dashboard-container {
+  background-color: var(--bg-main);
+  min-height: 100vh;
+  padding: 24px;
+} */
+.dashboard-container {
+  background-color: var(--bg-main) !important;
+  min-height: 100vh;
+  width: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+}
+.page-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+/* גריד הצוותים */
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* עיצוב הכרטיס */
+/* .team-card {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  transition: var(--transition);
+} */
+/* עיצוב הכרטיס - רקע לבן עם מסגרת עדינה במקום צל */
+.team-card {
+  background: white  !important;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03); /* צל עדין מאוד כדי להבדיל מהרקע הלבן */
+  position: relative;
+  transition: var(--transition);
+}
+.team-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* החלק העליון (הבאנר) */
+.card-visual-header {
+  height: 80px;
+  background-color: var(--bg-card-header);
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px;
+}
+
+.more-btn {
+  color: var(--more-icon);
+}
+
+/* גוף הכרטיס */
+.card-main-content {
+  padding: 0 16px 16px 16px;
+  position: relative;
+}
+
+/* האווטאר המעוגל */
+.team-avatar-container {
+  margin-top: -22px; /* ציפה מעל הבאנר */
+  margin-bottom: 12px;
+}
+
+.team-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+  border: 3px solid var(--white);
+  box-shadow: var(--card-shadow);
+}
+
+/* טקסטים */
+.team-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.member-count {
+  font-size: 13px;
+  color: var(--text-sub);
+}
+
+/* באדג' שחור (מספר חברים) */
+.member-badge {
+  position: absolute;
+  right: 16px;
+  bottom: 20px;
+  background: var(--black-badge);
+  color: var(--white);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* פס תחתון (Footer) */
+.card-footer {
+  border-top: 1px solid var(--border-color);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.action-link {
+  font-size: 13px;
+  color: var(--text-sub);
+}

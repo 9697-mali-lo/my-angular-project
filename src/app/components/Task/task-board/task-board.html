@@ -1,0 +1,61 @@
+<!-- <div class="board-wrapper">
+    <nav class="top-nav">
+      <div class="nav-left">
+        <span class="logo">Task Manager</span>
+        <button mat-button>Dashboard</button>
+        <button mat-button>Projects</button>
+        <button mat-button class="active-link">Teams</button>
+        <button mat-button>Settings</button>
+      </div>
+      <div class="nav-right">
+        <span class="user-name">Shira Cohen</span>
+        <div class="user-avatar"></div>
+      </div>
+    </nav>
+  
+    <header class="board-header">
+      <h1>Website Redesign</h1>
+      <button mat-flat-button color="primary" class="add-task-btn"(click)="onclickCreateTask()">
+        Add task
+      </button>
+    </header>
+  
+    <div class="kanban-container">
+      <app-task-list class="kanban-column" status="Backlog"></app-task-list>
+      <app-task-list class="kanban-column" status="In Progress"></app-task-list>
+      <app-task-list class="kanban-column" status="Done"></app-task-list>
+    </div>
+  </div> -->
+  <div class="board-wrapper">
+    <nav class="top-nav">
+      <div class="nav-left">
+        <span class="logo">Task Manager</span>
+        <div class="nav-links">
+          <button mat-button>Dashboard</button>
+          <button mat-button class="active-link">Projects</button>
+          <button mat-button>Teams</button>
+          <button mat-button>Settings</button>
+        </div>
+      </div>
+      <div class="nav-right">
+        <span class="user-name">{{ currentUser()?.name }} </span>
+        <mat-icon class="dropdown-icon">expand_more</mat-icon>
+        <div class="user-avatar"></div>
+      </div>
+    </nav>
+  
+    <div class="content-container">
+      <header class="board-header">
+        <h1>Website Redesign</h1>
+        <button mat-flat-button color="primary" class="add-task-btn" (click)="onclickCreateTask()">
+          Add task
+        </button>
+      </header>
+  
+      <div class="kanban-container">
+        <app-task-list class="kanban-column" status="Backlog"></app-task-list>
+        <app-task-list class="kanban-column" status="In Progress"></app-task-list>
+        <app-task-list class="kanban-column" status="Done"></app-task-list>
+      </div>
+    </div>
+  </div>

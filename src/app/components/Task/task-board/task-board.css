@@ -1,0 +1,106 @@
+/* .board-wrapper {
+    background-color: #ffffff;
+    min-height: 100vh;
+  }
+  
+  .top-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 40px;
+    border-bottom: 1px solid #f0f0f0;
+    align-items: center;
+  }
+  
+  .nav-left { display: flex; gap: 10px; align-items: center; }
+  .logo { font-weight: 700; font-size: 18px; margin-right: 20px; color: #1e1f21; }
+  
+  .active-link {
+    font-weight: 600 !important;
+    border-bottom: 2px solid #1e1f21;
+    border-radius: 0;
+  }
+  
+  .board-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 40px;
+    align-items: center;
+  }
+  
+  .board-header h1 { font-size: 26px; font-weight: 600; margin: 0; color: #292d34; }
+  
+  .add-project-btn {
+    background-color: #4a86e8 !important; 
+    font-weight: 500;
+  }
+  
+  .kanban-container {
+    display: flex;
+    gap: 24px;
+    padding: 0 40px;
+    align-items: flex-start;
+  } */
+   /* מבנה כללי */
+.board-wrapper {
+  background-color: #ffffff;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* ניווט עליון */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  height: 64px;
+  border-bottom: 1px solid #eee;
+}
+
+.nav-left { display: flex; align-items: center; gap: 30px; }
+.logo { font-weight: bold; font-size: 1.2rem; color: #333; margin-right: 20px; }
+
+.nav-links button { color: #666; font-weight: 400; }
+.active-link { color: #333 !important; font-weight: 500 !important; }
+
+.nav-right { display: flex; align-items: center; gap: 8px; }
+.user-name { color: #666; font-size: 0.95rem; }
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+/* כותרת הלוח */
+.content-container { padding: 40px; }
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.board-header h1 { font-size: 2rem; font-weight: 500; color: #222; margin: 0; }
+
+.add-task-btn {
+  background-color: #4a86e8 !important; /* הצבע הכחול מהתמונה */
+  border-radius: 6px;
+  padding: 0 20px;
+}
+
+/* קונטיינר העמודות */
+.kanban-container {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.kanban-column {
+  flex: 1;
+  background-color: #f8f9fa; /* צבע רקע עדין לעמודה */
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 500px;
+}

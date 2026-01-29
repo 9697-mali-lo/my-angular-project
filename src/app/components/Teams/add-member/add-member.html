@@ -1,0 +1,47 @@
+<!-- <h2 mat-dialog-title>הוסף חבר לצוות: {{ data.team.name }}</h2>
+
+<mat-dialog-content>
+  <p>הזן את כתובת האימייל של המשתמש שברצונך להוסיף:</p>
+  <input [(ngModel)]="email" placeholder="example@email.com" class="team-input">
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>ביטול</button>
+  <button mat-raised-button color="primary" [disabled]="!email" (click)="onAddMember()">
+    הוסף לצוות
+  </button>
+</mat-dialog-actions> -->
+<h2 mat-dialog-title>הוספת חבר לצוות</h2>
+
+<mat-dialog-content>
+  <div class="form-container" style="display: flex; flex-direction: column; gap: 15px; padding-top: 10px;">
+    
+    <mat-form-field appearance="outline">
+      <mat-label>בחר משתמש</mat-label>
+      <mat-select [(ngModel)]="selectedUserId" name="user">
+        @for (user of allUsers(); track user.id) {
+          <mat-option [value]="user.id">
+            {{ user.name }} 
+            <!-- {{ user.lastName }} ({{ user.email }}) -->
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>תפקיד</mat-label>
+      <mat-select [(ngModel)]="role" name="role">
+        <mat-option value="member">חבר (Member)</mat-option>
+        <mat-option value="admin">מנהל (Admin)</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <!-- <button mat-button (click)="onCancel()">ביטול</button> -->
+  <button mat-flat-button color="primary" [disabled]="!selectedUserId" (click)="onAddMember()">
+    הוסף לצוות
+  </button>
+</mat-dialog-actions>

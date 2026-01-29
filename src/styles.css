@@ -1,1 +1,48 @@
-/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files
+:root {
+    --clickup-purple: #7b68ee;
+    --clickup-gray: #2f3136;
+    --bg-light: #f8f9fb;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-light);
+    margin: 0;
+  } */
+  html, body {
+    background-color: #ffffff !important;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  
+  /* אם אתה משתמש ב-mat-sidenav-container */
+  mat-sidenav-content {
+    background-color: #ffffff !important;
+  }
+  :root {
+    --clickup-purple: #7b68ee;
+    --clickup-purple-hover: #6a56e5;
+    --clickup-gray: #2f3136;
+    --clickup-text-main: #292d34;
+    --clickup-text-sub: #7c828d;
+    --bg-light: #f8f9fb;
+    --border-color: #e9ebf0;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--clickup-text-main);
+    margin: 0;
+}
+
+/* עיצוב גלובלי לכפתורי המטריאל שישתלבו עם המותג */
+.mat-mdc-raised-button.mat-primary {
+    background-color: var(--clickup-purple) !important;
+}
+
+.mat-mdc-button.mat-accent {
+    color: var(--clickup-purple) !important;
+}

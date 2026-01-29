@@ -1,0 +1,92 @@
+<!-- <div class="dialog-container">
+    <h2 mat-dialog-title>Create New Project</h2>
+    
+    <mat-dialog-content class="dialog-content">
+      <p class="subtitle">Enter the details below to set up your new workspace project.</p>
+  
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Project Name</mat-label>
+          <input matInput [(ngModel)]="name" placeholder="e.g. Website Redesign" required>
+        </mat-form-field>
+      </div>
+  
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput [(ngModel)]="description" rows="4" placeholder="What is this project about?"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Pro</mat-label>
+          <textarea matInput [(ngModel)]="description" rows="4" placeholder="What is this project about?"></textarea>
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+  
+    <mat-dialog-actions align="end" class="dialog-actions">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-flat-button color="primary" 
+              (click)="oncreateProject()" 
+              [disabled]="!name">
+        Create Project
+      </button>
+    </mat-dialog-actions>
+  </div> -->
+  <h2 mat-dialog-title>Create New Task</h2>
+
+<mat-dialog-content class="dialog-content">
+  <div class="form-row">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Task Title</mat-label>
+      <input matInput [(ngModel)]="task.title" required>
+    </mat-form-field>
+  </div>
+
+  <div class="form-row">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput [(ngModel)]="task.description" rows="3"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="task.status">
+        <mat-option value="todo">To Do</mat-option>
+        <mat-option value="in-progress">In Progress</mat-option>
+        <mat-option value="done">Done</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Priority</mat-label>
+      <mat-select [(ngModel)]="task.priority">
+        <mat-option value="low">Low</mat-option>
+        <mat-option value="medium">Medium</mat-option>
+        <mat-option value="high">High</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Due Date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="task.dueDate">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Assignee ID</mat-label>
+      <input matInput type="number" [(ngModel)]="task.assigneeId">
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" (click)="onSave()" [disabled]="!task.title">Create Task</button>
+</mat-dialog-actions>

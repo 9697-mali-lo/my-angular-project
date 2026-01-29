@@ -1,0 +1,46 @@
+<header class="teams-header">
+  <div class="header-text">
+    <h1>הצוותים שלי</h1>
+    <p>נהל את הצוותים והפרויקטים שלך במקום אחד</p>
+  </div>
+  <button mat-fab extended color="primary" (click)="openCreateTeamDialog()">
+    <mat-icon>add</mat-icon>
+    צור צוות חדש
+  </button>
+</header>
+
+<div class="teams-grid">
+  @for (team of teams(); track team.id) {
+    <mat-card class="team-card" (click)="goToTeamProjects(team.id)" style="cursor: pointer;">
+      
+      <div class="card-visual-header">
+        <button mat-icon-button class="more-btn" (click)="$event.stopPropagation()">
+          <mat-icon>more_horiz</mat-icon>
+        </button>
+      </div>
+
+      <mat-card-content class="card-main-content">
+        <div class="team-avatar-container">
+          <div class="team-avatar" [style.background-color]="'#e91e63'">
+            {{ team.name[0] | uppercase }}
+          </div>
+        </div>
+
+        <div class="team-info">
+          <h3 class="team-title">{{ team.name }}</h3>
+          <span class="member-count">{{ team.membersCount || 1 }} members</span>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions class="card-footer">
+        <button mat-icon-button color="primary" 
+                (click)="openAddMemberDialog(team); $event.stopPropagation()" 
+                matTooltip="Add Member">
+          <mat-icon>person_add</mat-icon>
+        </button>
+        <div class="spacer"></div>
+        <button mat-button class="action-link">Manage</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+</div>
