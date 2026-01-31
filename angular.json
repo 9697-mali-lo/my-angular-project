@@ -15,26 +15,19 @@
       "architect": {
         "build": {
           "builder": "@angular/build:application",
-          "options": {
-            "browser": "src/main.ts",
-            "tsConfig": "tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/material-theme.scss",
-              "src/styles.css"
-            ],
-            "server": "src/main.server.ts",
         
-            "prerender": false,
-            "ssr": {
-              "entry": "src/server.ts"
-            }
-          },
+          "options": {
+  "browser": "src/main.ts",
+  "tsConfig": "tsconfig.app.json",
+  "assets": [       {
+          "glob": "**/*",
+         "input": "public"
+        } ],
+  "styles": [ "src/material-theme.scss",
+           "src/styles.css"],
+  "prerender": false,
+  "ssr": false
+},
           "configurations": {
             "production": {
               "budgets": [
