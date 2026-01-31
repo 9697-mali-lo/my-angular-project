@@ -52,16 +52,28 @@ export class ProjectBoard implements OnInit { // הוספנו implements
   
   currentTeamId = signal<number | null>(null);
 
+  // ngOnInit() {
+  //   // שליפת ה-teamId מה-URL (projects/:teamId)
+  //   this.route.paramMap.subscribe(params => {
+  //     const id = params.get('teamId');
+  //     if (id) {
+  //       this.currentTeamId.set(Number(id));
+  //     }
+  //   });
+  // }
   ngOnInit() {
-    // שליפת ה-teamId מה-URL (projects/:teamId)
     this.route.paramMap.subscribe(params => {
-      const id = params.get('teamId');
-      if (id) {
-        this.currentTeamId.set(Number(id));
+      const teamId = params.get('teamId');
+  
+      if (!teamId || isNaN(Number(teamId))) {
+        console.warn('Invalid teamId, abort ProjectBoard load');
+        return;
       }
+  
+      this.currentTeamId.set(Number(teamId));
     });
   }
-
+  
   onclickCreateProject() {
     // כאן נשלח הערך לחלונית הדיאלוג
     const teamIdValue = this.currentTeamId();

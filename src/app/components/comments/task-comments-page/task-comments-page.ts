@@ -10,7 +10,7 @@ import { commentService, Comment } from '../../../services/comment';
   templateUrl: './task-comments-page.html',
   styleUrl: './task-comments-page.css',
 })
-export class TaskCommentsPage implements OnInit {
+export class TaskCommentsPage {
   private taskService = inject(commentService);
 
   // הגדרת ה-ID של המשימה כ-Input (יכול להגיע מהראוטר)
@@ -26,9 +26,9 @@ export class TaskCommentsPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.loadComments(this.taskId());
-  }
+  // ngOnInit() {
+  //   this.loadComments(this.taskId());
+  // }
 
   loadComments(id: number) {
     this.taskService.getCommentsByTaskId(id).subscribe({
@@ -37,12 +37,21 @@ export class TaskCommentsPage implements OnInit {
     });
   }
 
+  // handleNewComment(commentText: string) {
+  //   this.taskService.addComment(this.taskId(), commentText).subscribe({
+  //     next: () => {
+  //       // טעינה מחדש של התגובות כדי לראות את התגובה החדשה
+  //       this.loadComments(this.taskId());
+  //     }
+  //   });
+  // }
   handleNewComment(commentText: string) {
     this.taskService.addComment(this.taskId(), commentText).subscribe({
-      next: () => {
-        // טעינה מחדש של התגובות כדי לראות את התגובה החדשה
-        this.loadComments(this.taskId());
-      }
+      next: (newComment) => {
+        // עדכון ה-Signal באופן מקומי במקום קריאה נוספת לשרת
+        this.comments.update(allComments => [...allComments, newComment]);
+      },
+      error: (err) => console.error('Error adding comment', err)
     });
   }
 }

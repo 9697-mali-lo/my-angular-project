@@ -74,7 +74,7 @@ export class TaskList {
 
   loadTasks() {
     this.isLoading.set(true);
-    this.taskService.getProjects().subscribe({ // וודא ששם הפעולה ב-service הוא getTasks או getProjects
+    this.taskService.getTasks().subscribe({ // וודא ששם הפעולה ב-service הוא getTasks או getProjects
       next: (data) => {
         // כאן אנחנו מעדכנים את הסיגנל הגולמי!
         this.allTasksSignal.set(data);

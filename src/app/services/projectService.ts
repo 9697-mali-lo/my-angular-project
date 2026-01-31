@@ -8,20 +8,7 @@ export interface Project {
   teamId?: number | null; 
   team_id?: number | null;
 }
-// export interface Project {
 
-//     id?: number;              // בדרך כלל השרת מחזיר גם ID לפרויקט
-//     teamId: number | null;    // שינוי ל-null כדי לאפשר גמישות בשליחה
-//     name: string;
-//     description: string;
-// }
-// export interface ProjectGet {
-
-//   id?: number;              // בדרך כלל השרת מחזיר גם ID לפרויקט
-//   team_id: number | null;    // שינוי ל-null כדי לאפשר גמישות בשליחה
-//   name: string;
-//   description: string;
-// }
 @Injectable({ providedIn: 'root' })
 export class projectsService {
     private http = inject(HttpClient);
@@ -35,7 +22,7 @@ export class projectsService {
      * יצירת פרויקט חדש. 
      * הטיפוס Project כעת תואם למה שנשלח מהקומפוננטה (כולל null).
      */
-    createProjects(proj: Project) {
-        return this.http.post<Project[]>(this.apiUrl, proj);
+    createProject(proj: Project) {
+        return this.http.post<Project>(this.apiUrl, proj);
     }
 }

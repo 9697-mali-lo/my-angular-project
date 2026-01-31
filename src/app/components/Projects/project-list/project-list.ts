@@ -1,4 +1,3 @@
-
 import { Component, inject, input, computed, signal, OnInit } from '@angular/core';
 import { Project, projectsService } from '../../../services/projectService';
 import { MatCard, MatCardContent } from "@angular/material/card";
@@ -17,43 +16,63 @@ export class ProjectList implements OnInit {
   private projectDialogService = inject(ProjectDialogService);
   private projectService = inject(projectsService);
   private router = inject(Router);
-  /**
-   * 1. הגדרת ה-Input עם Transform מפורש.
-   * הטיפוס הראשון <number | null> הוא מה שהקומפוננטה תראה (הפלט).
-   * הטיפוס השני הוא מה שה-URL עשוי לשלוח (string/number/null/undefined).
-   */
+
   team_id = input<number | null, string | number | null | undefined>(null, {
     transform: (value) => (value !== null && value !== undefined ? Number(value) : null)
   });
 
   allProjects = signal<Project[]>([]);
   isLoading = signal(true);
-
-  // projects = computed(() => {
-  //   const currentId = this.team_id();
-  //   const list = this.allProjects();
-    
-  //   // סינון לפי מספר הצוות
-  //   if (currentId !== null) {
-  //     // return list.filter(p => Number(p.team_id) === Number(currentId));
-  //     return list.filter(p => {
-  //       // בודק את team_id (מה שחוזר ב-GET) ואם לא קיים בודק את teamId
-  //       const pTeamId = p.team_id ?? p.teamId;
-  //       return Number(pTeamId) === Number(currentId);
-  //     });
-  //   }
-  //   return list;
-  // });
   projects = computed(() => {
-    const currentId = Number(this.team_id()); // ה-ID שמתקבל מה-URL/Input
-    const list = this.allProjects(); // כל הפרויקטים שהגיעו מהשרת
-    
-    return list.filter(p => {
-      // התיקון: בדיקת שני השמות האפשריים (team_id מהשרת או teamId מה-Interface)
-      const pTeamId = p.team_id ?? (p as any).teamId;
-      return Number(pTeamId) === currentId;
+    const currentId = this.team_id(); // ← חובה ()
+  
+    if (currentId === null) {
+      return this.allProjects();
+    }
+  
+    const targetId = Number(currentId);
+  
+    return this.allProjects().filter(p => {
+      const projectTeamId = Number(p.team_id ?? (p as any).teamId);
+      return projectTeamId === targetId;
     });
   });
+  
+  // projects = computed(() => {
+  //   // const currentId = this.team_id();
+  //   const currentId =  Number(this.team_id ?? (this as any).teamId);;
+  //   if (currentId === null) return this.allProjects();
+  
+  //   const targetId = Number(currentId); // המרה למספר של ה-ID מה-URL
+  
+  //   return this.allProjects().filter(p => {
+  //     // חילוץ ה-ID מהפרויקט והמרה למספר (מטפל גם ב-team_id וגם ב-teamId)
+  //     const projectTeamId = Number(p.team_id ?? (p as any).teamId);
+      
+  //     return projectTeamId === targetId;
+  //   });
+  // });
+  // projects = computed(() => {
+  //   console.log('Signal allProjects currently has:', this.allProjects());
+  //   return this.allProjects(); // זמנית מחזירים הכל בלי פילטר כדי לראות אם משהו מוצג
+  // });
+  // projects = computed(() => {
+  //   // 1. קריאת הערך מהסיגנל עם סוגריים ()
+  //   const rawId = this.team_id(); 
+    
+  //   // 2. בדיקה אם יש ערך
+  //   if (rawId === null || rawId === undefined) return this.allProjects();
+  
+  //   const targetId = Number(rawId);
+  
+  //   return this.allProjects().filter(p => {
+  //     // 3. חילוץ ה-ID מהפרויקט (מהשרת זה תמיד team_id)
+  //     const pTeamId = p.team_id ?? (p as any).teamId;
+  //     return Number(pTeamId) === targetId;
+  //   });
+  // });
+ 
+ 
 
   ngOnInit() {
     this.loadProjects();
@@ -64,26 +83,50 @@ export class ProjectList implements OnInit {
   
     this.projectService.getProjects().subscribe({
       next: (data) => {
-        console.log('Data from server:', data);
+
         this.allProjects.set([...data]);
         this.isLoading.set(false);
+        console.log('Total projects before filter:', data.length);
+        console.log('Projects after filter:', this.projects().length);
       },
       error: () => this.isLoading.set(false)
     });
   }
-
   onclickCreateProject() {
-    const currentId = this.team_id() ?? null;
+    const currentId = this.team_id();
   
-    // פתיחת הדיאלוג דרך השירות
     this.projectDialogService.openCreateProjectDialog(currentId).subscribe(result => {
-      // result יהיה true רק אם בתוך CreateProject כתבת this.dialogRef.close(true)
-      if (result) {
-        console.log('Project created, refreshing list for team:', currentId);
-        this.loadProjects(); // קריאה לשרת להבאת הרשימה המעודכנת
+      // אנחנו בודקים אם קיבלנו אובייקט (הפרויקט החדש)
+      if (result && typeof result === 'object') {
+
+        const normalizedProject: Project = {
+          ...result,
+          team_id: result.team_id ?? result.teamId
+        };
+      
+        this.allProjects.update(list => [...list, normalizedProject]);
+        this.loadProjects();
+      } else if (result ) {
+        // גיבוי: אם הדיאלוג החזיר רק 'true', נבצע טעינה מלאה מהשרת
+        this.loadProjects();
       }
+    
+      
     });
   }
+  // onclickCreateProject() {
+  //   const currentId = this.team_id() ?? null;
+  
+  //   // פתיחת הדיאלוג דרך השירות
+  //   this.projectDialogService.openCreateProjectDialog(currentId).subscribe(result => {
+  //     // result יהיה true רק אם בתוך CreateProject כתבת this.dialogRef.close(true)
+  //     if (result) {
+  //       console.log('Project created, refreshing list for team:', currentId);
+  //       // this.loadProjects(); // קריאה לשרת להבאת הרשימה המעודכנת
+  //       this.allProjects.update(list => [...list, result]);
+  //     }
+  //   });
+  // }
   // פונקציה למעבר לדף משימות
 goToProjectTasks(projectId: number | undefined) {
   if (projectId) {

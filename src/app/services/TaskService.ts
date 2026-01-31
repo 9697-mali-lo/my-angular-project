@@ -1,5 +1,3 @@
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
 
 export interface Task {
   id?: number;              // נוסף על ידי השרת לאחר היצירה
@@ -13,21 +11,26 @@ export interface Task {
   orderIndex: number;
 }
 
-export interface CreateTaskDto {
-  title: string;
-  description: string;
-  projectId: number;
-}
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+
 @Injectable({ providedIn: 'root' })
-export class tasksService{
-    private http = inject(HttpClient);
-    private apiUrl = 'http://localhost:3000/api/tasks';
-    getProjects() {
-    
-        return this.http.get<Task[]>(this.apiUrl);
-      }
-      createProjects(task:Task) {
-     
-        return this.http.post<Task>(this.apiUrl,task);
-      }
+export class tasksService {
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:3000/api/tasks';
+
+  // עדכון: הוספת פרמטר אופציונלי לסינון
+  getTasks(projectId?: number): Observable<Task[]> {
+    let params = new HttpParams();
+    if (projectId) {
+      params = params.set('projectId', projectId.toString());
+    }
+    // שליחת הבקשה עם הפרמטרים: ?projectId=1
+    return this.http.get<Task[]>(this.apiUrl, { params });
+  }
+
+  createTask(task: Task): Observable<Task> {
+    return this.http.post<Task>(this.apiUrl, task);
+  }
 }

@@ -42,17 +42,37 @@ export class CreateProject {
 
     console.log('Sending to server:', payload);
 
-    this.projectsService.createProjects(payload).subscribe({
-      next: (response) => {
-        // סגירת הדיאלוג והחזרת ערך חיובי לרענון הרשימה
-        this.dialogRef.close(true); 
-        alert('פרויקט ' + this.name + ' נוצר בהצלחה!');
-      },
-      error: (err) => {
-        // במידה והשרת עדיין מחזיר 400, נוכל לראות את הפירוט ב-Console
-        console.error('Server error:', err);
-        alert('חלה שגיאה ביצירת הפרויקט. וודא שכל השדות תקינים.');
-      }
-    });
-  }
-}
+    // this.projectsService.createProjects(payload).subscribe({
+    //   next: (response) => {
+    //     // סגירת הדיאלוג והחזרת ערך חיובי לרענון הרשימה
+    //     this.dialogRef.close(true); 
+        
+    //   },
+    //   error: (err) => {
+    //     // במידה והשרת עדיין מחזיר 400, נוכל לראות את הפירוט ב-Console
+    //     console.error('Server error:', err);
+    //     alert('חלה שגיאה ביצירת הפרויקט. וודא שכל השדות תקינים.');
+    //   }
+    // });
+  // }
+  // this.projectsService.createProject(payload).subscribe({
+  //   next: (newProjectFromServer) => {
+  //     // במקום להחזיר true, מחזירים את האובייקט שהשרת יצר (כולל ה-ID שלו)
+  //     this.dialogRef.close(newProjectFromServer); 
+  //     alert('פרויקט ' + this.name + ' נוצר בהצלחה!');
+  //   },
+  //   error: (err) => console.error(err)
+  // });
+  // }}
+  this.projectsService.createProject(payload).subscribe({
+    next: (project) => {
+      const normalizedProject = {
+        ...project,
+        team_id: project.team_id ?? project.teamId
+      };
+  
+      this.dialogRef.close(normalizedProject);
+    },
+    error: err => console.error(err)
+  });
+  }}  

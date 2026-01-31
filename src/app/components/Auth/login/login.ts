@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthFormCard } from '../auth-form-card/auth-form-card';
+import { AuthService } from '../../../services/AuthService';
 
 
 @Component({
@@ -14,10 +15,10 @@ import { AuthFormCard } from '../auth-form-card/auth-form-card';
 export class Login {
     loginData = { "email": '', "password": '' };
   
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private authService: AuthService, private router: Router) {}
     
     onLogin() {
-      this.http.post('http://localhost:3000/api/auth/login', this.loginData)
+      this.authService.login( this.loginData)
         .subscribe({
           next: (res: any) => {
             localStorage.setItem('token', res.token);
