@@ -1,7 +1,7 @@
 // comment-item.ts
 import { Component, input } from '@angular/core';
 import { DatePipe } from '@angular/common'; // ייבוא ה-Pipe
-import { Comment } from '../../../services/comment';
+import { CommentFromServer } from '../../../models/comment';
 
 @Component({
   selector: 'app-comment-item',
@@ -11,5 +11,5 @@ import { Comment } from '../../../services/comment';
   styleUrl: './comment-item.css',
 })
 export class CommentItem {
-  comment = input.required<Comment>();
+  comment = input.required<CommentFromServer>();
 }

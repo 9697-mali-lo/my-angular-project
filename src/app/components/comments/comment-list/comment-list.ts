@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { CommentItem } from '../comment-item/comment-item';
-import{Comment }from '../../../services/comment'
+import { CommentFromServer } from '../../../models/comment';
 @Component({
   selector: 'app-comment-list',
   imports: [CommentItem],
@@ -8,5 +8,5 @@ import{Comment }from '../../../services/comment'
   styleUrl: './comment-list.css',
 })
 export class CommentList {
-  comments = input.required<Comment[]>();
+  comments = input.required<CommentFromServer[]>();
 }
