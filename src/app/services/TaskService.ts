@@ -14,6 +14,7 @@ export interface Task {
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { TaskFromServer, TaskToSend } from "../models/task";
 
 @Injectable({ providedIn: 'root' })
 export class tasksService {
@@ -21,16 +22,16 @@ export class tasksService {
   private apiUrl = 'http://localhost:3000/api/tasks';
 
   // עדכון: הוספת פרמטר אופציונלי לסינון
-  getTasks(projectId?: number): Observable<Task[]> {
+  getTasks(projectId?: number): Observable<TaskFromServer[]> {
     let params = new HttpParams();
     if (projectId) {
       params = params.set('projectId', projectId.toString());
     }
     // שליחת הבקשה עם הפרמטרים: ?projectId=1
-    return this.http.get<Task[]>(this.apiUrl, { params });
+    return this.http.get<TaskFromServer[]>(this.apiUrl, { params });
   }
 
-  createTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.apiUrl, task);
+  createTask(task: TaskToSend): Observable<TaskFromServer> {
+    return this.http.post<TaskFromServer>(this.apiUrl, task);
   }
 }

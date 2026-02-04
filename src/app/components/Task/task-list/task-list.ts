@@ -1,71 +1,45 @@
-import { Component, computed, inject, Input, signal } from '@angular/core';
+import { Component, computed, inject, input, Input, signal } from '@angular/core';
 import { Project, projectsService } from '../../../services/projectService';
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { MatIcon } from "@angular/material/icon";
 import { TaskBoard } from '../task-board/task-board';
 import { TaskDialogService } from '../../../services/TaskDialogService';
 import { Task, tasksService } from '../../../services/TaskService';
+import { TaskFromServer } from '../../../models/task';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
-  imports: [MatCard, MatCardContent, MatIcon],
+  imports: [MatCard, MatCardContent, MatIcon,RouterModule],
   templateUrl: './task-list.html',
   styleUrl: './task-list.css',
 })
-// export class TaskList {
-//  private taskDialogService=inject(TaskDialogService);
-//   onclickCreateProject() {
-//     this.taskDialogService.openCreateTaskDialog().subscribe(result => {
-//       if (result) {
-//         this.loadTeams(); // בונוס: רענון הרשימה לאחר יצירה
-//       }
-//     });
-//   }
-//       private taskService = inject(tasksService);
-//   // וודא שיש לך computed שמסנן את המשימות לפי הסטטוס של העמודה
-// tasks = computed(() => {
-//   const allTasks = this.allTasksSignal(); // המשימות הגולמיות מהשרת
-//   const columnStatus = this.status(); // הסטטוס של העמודה הנוכחית (למשל 'Done')
-  
-//   return allTasks.filter(t => t.status === columnStatus);
-// });
-//       isLoading = signal(true);
-//       @Input() status: string = '';
-      
-//       ngOnInit() {
-//         this.loadTeams();
-//       }
-  
-//       loadTeams() {
-//         this.taskService.getProjects().subscribe({
-//           next: (data) => {
-//             this.tasks.set([...data]);
-//             this.isLoading.set(false);
-//           },
-//           error: () => this.isLoading.set(false)
-//         });
-//       }
-    
-// }
+
 export class TaskList {
   private taskDialogService = inject(TaskDialogService);
   private taskService = inject(tasksService);
 
-  // 1. הגדרת Input כסיגנל (מומלץ בגרסאות חדשות) או שמירה על @Input רגיל
-  @Input() status: string = '';
-  statusSignal = signal(''); // עזר להפיכת ה-Input לסיגנל לצורך ה-computed
+  // שימוש ב-Signal Inputs לכל הפרמטרים
+  projectId = input<string>();
+  status = input<string>(''); 
 
-  // 2. הסיגנל שמחזיק את כל המשימות הגולמיות מהשרת
-  allTasksSignal = signal<Task[]>([]);
+  allTasksSignal = signal<TaskFromServer[]>([]);
   isLoading = signal(true);
 
-  // 3. ה-computed שמסנן אוטומטית לפי הסטטוס
+  // ה-computed עכשיו מושלם - הוא יתעדכן כשהמשימות משתנות או כשהסטטוס משתנה
   tasks = computed(() => {
     const allTasks = this.allTasksSignal();
-    const currentStatus = this.status; // או this.statusSignal()
-    
-    // חשוב: לוודא שאין בעיית Case Sensitive (למשל Todo מול todo)
-    return allTasks.filter(t => t.status?.toLowerCase() === currentStatus.toLowerCase());
+    const currentStatus = this.status(); 
+    console.log(`--- בדיקת עמודה: ${currentStatus} ---`);
+    console.log('Filtering tasks for status:', currentStatus, 'Total tasks:', allTasks.length);
+
+    return allTasks.filter(t => {
+      const match = t.status?.toLowerCase() === currentStatus.toLowerCase();
+      if (allTasks.length > 0) {
+         console.log(`משימה: ${t.title}, סטטוס במשימה: ${t.status}, האם מתאים לעמודה? ${match}`);
+      }
+      return match;
+    });
   });
 
   ngOnInit() {
@@ -74,9 +48,8 @@ export class TaskList {
 
   loadTasks() {
     this.isLoading.set(true);
-    this.taskService.getTasks().subscribe({ // וודא ששם הפעולה ב-service הוא getTasks או getProjects
+    this.taskService.getTasks().subscribe({
       next: (data) => {
-        // כאן אנחנו מעדכנים את הסיגנל הגולמי!
         this.allTasksSignal.set(data);
         this.isLoading.set(false);
       },
@@ -87,11 +60,26 @@ export class TaskList {
     });
   }
 
-  onclickCreateProject() {
-    this.taskDialogService.openCreateTaskDialog().subscribe(result => {
-      if (result) {
-        this.loadTasks(); // רענון לאחר יצירה
+  onclickCreateTask() {
+    console.log('Sending ID to dialog:', this.projectId());
+    this.taskDialogService.openCreateTaskDialog(this.projectId()!,this.status()).subscribe(task => {
+      if (task) {
+        this.taskService.createTask(task).subscribe({
+          next: (savedTask) => {
+            console.log('המשימה נשמרה בהצלחה!', savedTask);
+            
+            // עדכון אופטימי: הוספת המשימה ישירות לסיגנל בלי לקרוא לשרת שוב
+            this.allTasksSignal.update(currentTasks => [...currentTasks, savedTask]);
+          },
+          error: (err) => {
+            console.error('שגיאה בשמירה:', err);
+          }
+        });
       }
     });
+  }
+  onTaskClick(task: TaskFromServer) {
+  
+    
   }
 }

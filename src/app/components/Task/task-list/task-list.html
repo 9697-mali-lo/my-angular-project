@@ -1,10 +1,10 @@
 
   <div class="column-container">
-    <h2 class="column-title">{{ status }}</h2>
+    <h2 class="column-title">{{ status().toUpperCase() }}</h2>
     
     <div class="cards-list">
       @for (task of tasks(); track task.id) {
-        <mat-card class="task-card" appearance="outlined">
+        <mat-card class="task-card" [routerLink]="['/tasks', task.id, 'comments']" (click)="onTaskClick(task)" appearance="outlined">
           <mat-card-content>
             <h3 class="task-title">{{ task.title }}</h3>
             <p class="task-desc">{{ task.description }}</p>
@@ -12,7 +12,7 @@
         </mat-card>
       }
   
-    <button mat-button class="inline-add-btn" (click)="onclickCreateProject()" >
+    <button mat-button class="inline-add-btn" (click)="onclickCreateTask()" >
       <mat-icon >add</mat-icon> Add task
     </button>
   </div>
