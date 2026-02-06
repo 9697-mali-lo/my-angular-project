@@ -1,14 +1,8 @@
 // 1. ייבוא כלים מליבת Angular ומהמודול של HTTP
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Team } from '../models/team';
 
-
-export interface Team {
-  id: string;
-  name: string;
-  membersCount: number;
-  description?: string; // סימן השאלה אומר ששדה זה אינו חובה
-}
 export interface AddMemberPayload {
   userId: number;
   role: string;

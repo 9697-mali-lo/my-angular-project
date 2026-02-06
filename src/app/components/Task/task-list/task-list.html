@@ -1,18 +1,31 @@
-
   <div class="column-container">
     <h2 class="column-title">{{ status().toUpperCase() }}</h2>
     
     <div class="cards-list">
       @for (task of tasks(); track task.id) {
-        <mat-card class="task-card" [routerLink]="['/tasks', task.id, 'comments']" (click)="onTaskClick(task)" appearance="outlined">
-          <mat-card-content>
-            <h3 class="task-title">{{ task.title }}</h3>
-            <p class="task-desc">{{ task.description }}</p>
-          </mat-card-content>
+        <mat-card class="task-card" appearance="outlined">
+          <div [routerLink]="['/tasks', task.id, 'comments']" style="cursor: pointer;">
+            <mat-card-content>
+              <div class="task-body">
+                <h3 class="task-title">{{ task.title }}</h3>
+                <p class="task-desc">{{ task.description }}</p>
+              </div>
+            </mat-card-content>
+          </div>
+        
+          <div class="actions">
+            <button mat-icon-button (click)="onEditTask($event, task)" color="primary">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="onDeleteTask($event, task.id!)" color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </mat-card>
       }
+    </div>
   
-    <button mat-button class="inline-add-btn" (click)="onclickCreateTask()" >
-      <mat-icon >add</mat-icon> Add task
+    <button mat-button class="inline-add-btn" (click)="onclickCreateTask()">
+      <mat-icon>add</mat-icon> Add task
     </button>
   </div>

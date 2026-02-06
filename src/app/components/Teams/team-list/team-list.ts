@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Team, TeamsService } from '../../../services/teamServices';
+import {  TeamsService } from '../../../services/teamServices';
 import { UpperCasePipe } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog'; 
 import { CreateTeam } from '../create-team/create-team';
@@ -14,7 +14,7 @@ import { AddMember } from '../add-member/add-member';
 import { MatMenuModule } from '@angular/material/menu';
 import { HttpClient } from '@angular/common/http';
  import { Router } from '@angular/router';
-
+ import{Team}from'../../../models/team';
 @Component({
   selector: 'app-team-list',
   imports: [

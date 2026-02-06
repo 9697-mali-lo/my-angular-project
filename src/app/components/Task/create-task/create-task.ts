@@ -7,7 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
-import { TaskToSend } from '../../../models/task';
+import { TaskToSend, TaskUpdatePayload } from '../../../models/task';
 
 @Component({
   selector: 'app-create-task',
@@ -42,21 +42,38 @@ export class CreateTask implements OnInit {
   ngOnInit() {
     // ניתן לוודא כאן שה-projectId הגיע
     console.log('Project ID received:', this.data.projectId);
+    if (this.data.task) {
+      // אם הגיעה משימה, ממלאים את הטופס בערכים שלה
+      this.taskForm.patchValue(this.data.task);
+    }
+    
   }
 
   onSave() {
     if (this.taskForm.valid) {
-      // יצירת האובייקט הסופי לשליחה מתוך ערכי הטופס + ה-projectId מה-data
-      const finalTask: TaskToSend = {
-        ...this.taskForm.value,
-        projectId: this.data.projectId,
-        orderIndex: 0,
-        // המרה ל-ISO string אם השרת מצפה לפורמט הזה
-        dueDate: this.taskForm.value.dueDate?.toISOString() 
-      } as TaskToSend;
-
-      console.log('שומר נתונים:', finalTask);
-      this.dialogRef.close(finalTask);
+      if (this.data.task) {
+        const updatePayload: TaskUpdatePayload = {
+          status: this.taskForm.value.status as any,
+          priority: this.taskForm.value.priority as any
+        };
+        
+        console.log('שולח לעריכה רק סטטוס ועדיפות:', updatePayload);
+        this.dialogRef.close(updatePayload);
+      }
+      else {
+        const newTask: TaskToSend = {
+          ...this.taskForm.value,
+          projectId: this.data.projectId,
+          orderIndex: 0,
+          dueDate: this.taskForm.value.dueDate?.toISOString() 
+        } as TaskToSend;
+  
+        console.log('שומר משימה חדשה:', newTask);
+        this.dialogRef.close(newTask);
+      }
     }
+    
+
+    
   }
 }

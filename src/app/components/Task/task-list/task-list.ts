@@ -4,82 +4,73 @@ import { MatCard, MatCardContent } from "@angular/material/card";
 import { MatIcon } from "@angular/material/icon";
 import { TaskBoard } from '../task-board/task-board';
 import { TaskDialogService } from '../../../services/TaskDialogService';
-import { Task, tasksService } from '../../../services/TaskService';
-import { TaskFromServer } from '../../../models/task';
+// import { Task, tasksService } from '../../../services/TaskService';
+// import { TaskFromServer } from '../../../models/task';
 import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';     // חובה עבור mat-icon
+import { MatCardModule } from '@angular/material/card';
+
+import { TaskFromServer } from "../../../models/task";
+import { TasksService } from '../../../services/TaskService';
 
 @Component({
   selector: 'app-task-list',
-  imports: [MatCard, MatCardContent, MatIcon,RouterModule],
+  imports: [MatCard,MatCardModule,MatIconModule, MatCardContent,MatButtonModule, MatIcon,RouterModule],
   templateUrl: './task-list.html',
   styleUrl: './task-list.css',
 })
 
 export class TaskList {
   private taskDialogService = inject(TaskDialogService);
-  private taskService = inject(tasksService);
+  private taskService = inject(TasksService);
 
-  // שימוש ב-Signal Inputs לכל הפרמטרים
   projectId = input<string>();
   status = input<string>(''); 
 
-  allTasksSignal = signal<TaskFromServer[]>([]);
-  isLoading = signal(true);
-
-  // ה-computed עכשיו מושלם - הוא יתעדכן כשהמשימות משתנות או כשהסטטוס משתנה
+  // המקור היחיד לנתונים הוא ה-Service
   tasks = computed(() => {
-    const allTasks = this.allTasksSignal();
-    const currentStatus = this.status(); 
-    console.log(`--- בדיקת עמודה: ${currentStatus} ---`);
-    console.log('Filtering tasks for status:', currentStatus, 'Total tasks:', allTasks.length);
-
-    return allTasks.filter(t => {
-      const match = t.status?.toLowerCase() === currentStatus.toLowerCase();
-      if (allTasks.length > 0) {
-         console.log(`משימה: ${t.title}, סטטוס במשימה: ${t.status}, האם מתאים לעמודה? ${match}`);
-      }
-      return match;
-    });
+    return this.taskService.allTasks() // חשוב: לקרוא מה-Service!
+      .filter(t => t.status?.toLowerCase() === this.status().toLowerCase());
   });
 
-  ngOnInit() {
-    this.loadTasks();
-  }
-
-  loadTasks() {
-    this.isLoading.set(true);
-    this.taskService.getTasks().subscribe({
-      next: (data) => {
-        this.allTasksSignal.set(data);
-        this.isLoading.set(false);
-      },
-      error: (err) => {
-        console.error('Error loading tasks:', err);
-        this.isLoading.set(false);
-      }
-    });
-  }
-
   onclickCreateTask() {
-    console.log('Sending ID to dialog:', this.projectId());
-    this.taskDialogService.openCreateTaskDialog(this.projectId()!,this.status()).subscribe(task => {
-      if (task) {
-        this.taskService.createTask(task).subscribe({
-          next: (savedTask) => {
-            console.log('המשימה נשמרה בהצלחה!', savedTask);
-            
-            // עדכון אופטימי: הוספת המשימה ישירות לסיגנל בלי לקרוא לשרת שוב
-            this.allTasksSignal.update(currentTasks => [...currentTasks, savedTask]);
-          },
-          error: (err) => {
-            console.error('שגיאה בשמירה:', err);
-          }
-        });
-      }
-    });
+    this.taskDialogService.openTaskDialog(this.projectId()!, this.status())
+      .subscribe(newTask => {
+        if (newTask) {
+          this.taskService.createTask(newTask).subscribe(saved => {
+            // מעדכנים את ה-Service!
+            this.taskService.allTasks.update(list => [...list, saved]);
+          });
+        }
+      });
   }
-  onTaskClick(task: TaskFromServer) {
-  
+
+  onEditTask(event: Event, task: TaskFromServer) {
+    event.stopPropagation(); // קריטי!
+    event.preventDefault();  // קריטי כדי למנוע מה-RouterLink לפעול
     
+    this.taskDialogService.openTaskDialog(this.projectId()!, task.status, task)
+      .subscribe(updatedData => {
+        if (updatedData) {
+          this.taskService.updateTask(task.id!, updatedData).subscribe(result => {
+            // מעדכנים את ה-Service!
+            this.taskService.allTasks.update(list => 
+              list.map(t => t.id === result.id ? result : t)
+            );
+          });
+        }
+      });
+  }
+
+  onDeleteTask(event: Event, taskId: number) {
+    event.stopPropagation();
+    event.preventDefault();
+    if (confirm('מחיקת משימה?')) {
+      this.taskService.deleteTask(taskId).subscribe(() => {
+        // מעדכנים את ה-Service!
+        this.taskService.allTasks.update(list => list.filter(t => t.id !== taskId));
+      });
+    }
   }
 }

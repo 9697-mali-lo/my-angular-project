@@ -7,10 +7,10 @@ export interface TaskToSend {
     assigneeId: number,
     dueDate: string,
     orderIndex: 0
-  }
+ }
   
   
-  export interface TaskFromServer {
+export interface TaskFromServer {
     id?: number;
     project_id: number;   
     title: string;
@@ -22,10 +22,11 @@ export interface TaskToSend {
     order_index: number;      
     created_at?: string;      
     updated_at?: string;      
-  }
+ }
   
   
-  export interface UpdateTask {
-    status: string,
-    priority?: string
-  }
+ // טיפוס שמכיל אך ורק את מה שהשרת מוכן לקבל בעריכה
+export interface TaskUpdatePayload {
+  status?: 'todo' | 'doing' | 'done';
+  priority?: 'low' | 'medium' | 'high';
+}

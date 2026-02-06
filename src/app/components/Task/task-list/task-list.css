@@ -45,3 +45,75 @@
     border: 1px solid #eaebed !important;
     background: white !important;
   }
+  /* כרטיס המשימה */
+.task-card {
+  margin-bottom: 12px;
+  position: relative; /* מאפשר גמישות במיקום */
+  transition: transform 0.2s;
+}
+
+.task-card:hover {
+  transform: translateY(-2px); /* אפקט ריחוף קטן */
+}
+
+/* סידור אזור הכפתורים */
+.actions {
+  display: flex;
+  justify-content: flex-end; /* דוחף את הכפתורים לצד */
+  gap: 4px;
+  margin-top: 8px;
+  border-top: 1px solid #eee; /* קו הפרדה עדין */
+  padding-top: 4px;
+}
+
+/* הקטנת הכפתורים כדי שלא ישתלטו על הכרטיס */
+.actions button {
+  transform: scale(0.8); 
+  opacity: 0.6; /* שקופים מעט כברירת מחדל */
+  transition: opacity 0.2s;
+}
+
+.task-card:hover .actions button {
+  opacity: 1; /* מופיעים בבירור רק כשעוברים על הכרטיס */
+}
+mat-icon {
+  display: inline-block !important;
+  color: black; /* לראות אם זה רק עניין של צבע */
+}
+.task-card {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+/* מסדר את הכפתורים בשורה אחת בצד ימין/שמאל */
+.actions {
+  display: flex;
+  justify-content: flex-end; 
+  margin-top: 8px;
+  border-top: 1px solid #f0f0f0; /* אופציונלי: קו הפרדה עדין */
+  padding-top: 5px;
+}
+
+/* מוודא שהאייקון נראה בתוך הכפתור */
+.actions mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+/* וודא שגופן האייקונים נטען */
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+/* הגדרת כפתורי האייקונים */
+.mat-mdc-icon-button {
+  --mdc-icon-button-icon-size: 24px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.actions {
+  display: flex !important;
+  gap: 8px;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
