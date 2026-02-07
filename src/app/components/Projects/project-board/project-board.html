@@ -1,4 +1,4 @@
-<div class="board-wrapper">
+<!-- <div class="board-wrapper">
     <nav class="top-nav">
       <div class="nav-left">
         <span class="logo">Task Manager</span>
@@ -8,7 +8,7 @@
         <button mat-button>Settings</button>
       </div>
       <div class="nav-right">
-        <!-- <span class="user-name">Shira Cohen</span> -->
+        <span class="user-name">Shira Cohen</span>
         <div class="user-avatar"></div>
       </div>
     </nav>
@@ -24,4 +24,34 @@
     
       <app-project-list [projects]="allProjects()" class="kanban-column" status="Done"></app-project-list>
     </div>
- </div>
+ </div> -->
+ <div class="board-wrapper">
+  <nav class="top-nav">
+    <div class="nav-left">
+      <span class="logo">Task Manager</span>
+      <div class="nav-links">
+        <button mat-button>Dashboard</button>
+        <button mat-button class="active-link">Projects</button>
+        <button mat-button >Teams</button>
+        <button mat-button>Settings</button>
+      </div>
+    </div>
+    <div class="nav-right">
+      <span class="user-name">{{ currentUser()?.name }} </span>
+      <div class="user-avatar"></div>
+    </div>
+  </nav>
+
+  <div class="content-container">
+    <header class="board-header">
+      <h1>Website Redesign</h1>
+      <button mat-flat-button class="add-task-btn" (click)="onclickCreateProject()">
+        + Add project
+      </button>
+    </header>
+
+    <div class="kanban-container">
+      <app-project-list [projects]="allProjects()" class="kanban-column" status="Done"></app-project-list>
+      </div>
+  </div>
+</div>

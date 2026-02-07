@@ -4,6 +4,7 @@ import { ProjectList } from "../project-list/project-list";
 import { ProjectDialogService } from '../../../services/ProjectDialogService';
 import { ActivatedRoute } from '@angular/router';
 import { Project, projectsService } from '../../../services/projectService';
+import { User } from '../../../services/usersService';
 
 @Component({
   selector: 'app-project-board',
@@ -19,7 +20,7 @@ export class ProjectBoard implements OnInit { // הוספנו implements
   team_id = input<number | null, string | number | null | undefined>(null, {
     transform: (value) => (value !== null && value !== undefined ? Number(value) : null)
   });
-
+  currentUser = signal<User | null>(null);
   currentTeamId = signal<number | null>(null);
   allProjects = signal<Project[]>([]);
   isLoading = signal(true);
