@@ -1,0 +1,20 @@
+<div class="main-wrapper">
+  <aside class="icon-sidebar">
+    <div class="top-icons">
+      <button class="nav-btn" routerLink="/auth/login" routerLinkActive="active"><i class="icon-home"></i><span>Home</span></button>
+
+      <!-- <button class="nav-btn active" routerLink="/teams" routerLinkActive="active"><i class="icon-teams"></i><span>Teams</span></button> -->
+      <button class="nav-btn" routerLink="/teams" routerLinkActive="active"><i class="icon-teams"></i><span>Teams</span></button>
+      <button class="nav-btn" routerLink="/projects" routerLinkActive="active"><i class="icon-teams"></i><span>Projects</span></button>
+      <button class="nav-btn" routerLink="/tasks" routerLinkActive="active"><i class="icon-teams"></i><span>Tasks</span></button>
+      <!-- <button class="nav-btn" routerLink="/tasks" routerLinkActive="active"><i class="icon-teams"></i><span>Comments</span></button> -->
+    </div>
+    
+  </aside>
+
+  <section class="content-area">
+    <router-outlet></router-outlet>
+  </section>
+</div>
+
+

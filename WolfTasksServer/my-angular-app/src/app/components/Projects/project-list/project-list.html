@@ -1,0 +1,32 @@
+
+  <div class="column-container">
+    <div class="cards-list">
+      @for (project of projects(); track project.id) {
+        <mat-card 
+          class="project-card" 
+          appearance="outlined" 
+          (click)="goToProjectTasks(project.id)"
+          style="cursor: pointer;"> <mat-card-content>
+            <div class="project-header">
+              <h3 class="project-title">{{ project.name }}</h3>
+              <button mat-icon-button (click)="onAddTask($event, project)" matTooltip="Add Task">
+                <mat-icon color="primary">add_task</mat-icon>
+              </button>
+            </div>
+            
+            <p class="project-desc">{{ project.description }}</p>
+            
+            <div class="project-footer">
+              <span class="task-count">
+                <mat-icon inline>assignment</mat-icon> View tasks
+              </span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  
+    <!-- <button mat-button class="inline-add-btn" (click)="onclickCreateProject()">
+      <mat-icon>add</mat-icon> Add project
+    </button> -->
+  </div>

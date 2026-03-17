@@ -1,0 +1,43 @@
+<div class="dialog-header">
+    <div class="header-text">
+      <h2 mat-dialog-title>Create Team</h2>
+      <p class="subtitle">Use Teams to easily create groups of people you can assign to tasks.</p>
+    </div>
+    <button mat-icon-button mat-dialog-close class="close-x-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  
+  <mat-dialog-content class="dialog-content">
+    <div class="section-title">name</div>
+    <!-- <div class="input-row">
+      <div class="avatar-placeholder" [style.background-color]="name ? '#7b68ee' : '#b9bec7'">
+        {{ name ? (name[0] | uppercase) : '?' }}
+      </div> -->
+      <input 
+        [(ngModel)]="name" 
+        name="teamName"
+        placeholder="Team name..." 
+        class="team-name-input"
+      >
+    <!-- </div> -->
+  
+    <div class="section-title">Description (optional)</div>
+    <textarea 
+      [(ngModel)]="description" 
+      name="description"
+      placeholder="Add Team description, information, and wiki" 
+      class="description-textarea">
+    </textarea>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button 
+      mat-raised-button 
+      class="create-btn" 
+      [disabled]="!name" 
+      (click)="oncreateTeam()">
+      Create Team
+    </button>
+  </mat-dialog-actions>

@@ -1,0 +1,9 @@
+<div class="comments-scroll-area">
+    @for (item of comments(); track item.id) {
+      <app-comment-item [comment]="item" />
+    } @empty {
+      <div class="empty-state">
+        <p>No comments yet. Start the conversation!</p>
+      </div>
+    }
+  </div>

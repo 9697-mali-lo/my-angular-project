@@ -1,0 +1,34 @@
+# --- Dependencies (תיקיות ספריות חיצוניות - לא להעלות!) ---
+node_modules/
+**/node_modules/
+package-lock.json
+yarn.lock
+
+# --- Angular specific (קבצי עבודה של אנגולר) ---
+.angular/
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# --- Server specific (קבצי שרת ותצורה) ---
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- IDEs & Editors (הגדרות אישיות של עורך הקוד) ---
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# --- OS generated files (קבצי מערכת הפעלה) ---
+Thumbs.db
+desktop.ini
+.DS_Store

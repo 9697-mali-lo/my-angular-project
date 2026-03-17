@@ -1,0 +1,15 @@
+<div class="input-container">
+    <div class="input-wrapper">
+      <input 
+        type="text" 
+        [(ngModel)]="text" 
+        placeholder="Write a comment..."
+        (keyup.enter)="emitSend()">
+      <button 
+        class="send-btn"
+        (click)="emitSend()" 
+        [disabled]="!text().trim()">
+        Send
+      </button>
+    </div>
+  </div>

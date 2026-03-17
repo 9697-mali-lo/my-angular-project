@@ -1,0 +1,22 @@
+<app-auth-card 
+  title="ברוכים הבאים!" 
+  subtitle="התחברות"
+  footerText="אין לך חשבון?"
+  footerLink="/auth/register"
+  footerLinkText="הרשם עכשיו">
+
+  <form (submit)="onLogin()">
+    <div class="input-group"> 
+      <label>אימייל</label>
+      <input type="email" [(ngModel)]="loginData.email" name="email" placeholder="email@example.com" required>
+    </div>
+
+    <div class="input-group"> 
+      <label>סיסמה</label>
+      <input type="password" [(ngModel)]="loginData.password" name="password" placeholder="הקלד סיסמה" required>
+    </div>
+
+    <button type="submit" class="auth-button">התחברות</button>
+  </form>
+
+</app-auth-card>
