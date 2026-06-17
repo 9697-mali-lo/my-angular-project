@@ -101,7 +101,7 @@ mat-icon {
   height: 20px;
 }
 /* וודא שגופן האייקונים נטען */
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 
 /* הגדרת כפתורי האייקונים */
 .mat-mdc-icon-button {
