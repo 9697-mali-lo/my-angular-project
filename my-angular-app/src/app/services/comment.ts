@@ -2,13 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CommentFromServer, CommentToSend } from '../models/comment';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class commentService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/comments'; // וודא שהכתובת תואמת לשרת שלך
+  private apiUrl = `${environment.apiUrl}/comments`; // וודא שהכתובת תואמת לשרת שלך
 
   /**
    * שליפת כל התגובות עבור משימה ספציפית

@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
+import { environment } from '../../environments/environment';
 export interface Project {
   id?: number;
   name: string;
@@ -12,7 +13,7 @@ export interface Project {
 @Injectable({ providedIn: 'root' })
 export class projectsService {
     private http = inject(HttpClient);
-    private apiUrl = 'http://localhost:3000/api/projects';
+    private apiUrl = `${environment.apiUrl}/projects`;
 
     getProjects() {
         return this.http.get<Project[]>(this.apiUrl);

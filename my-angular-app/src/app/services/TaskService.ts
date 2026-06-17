@@ -19,7 +19,6 @@
 // @Injectable({ providedIn: 'root' })
 // export class tasksService {
 //   private http = inject(HttpClient);
-//   private apiUrl = 'http://localhost:3000/api/tasks';
 //   allTasks = signal<TaskFromServer[]>([]);
 //   isLoading = signal(false);
 //   // עדכון: הוספת פרמטר אופציונלי לסינון
@@ -58,13 +57,14 @@
 // }
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { inject, Injectable, signal } from "@angular/core";
+import { environment } from '../../environments/environment';
 import { Observable, tap } from "rxjs"; // חובה לייבא את tap
 import { TaskFromServer, TaskToSend, TaskUpdatePayload } from "../models/task";
 
 @Injectable({ providedIn: 'root' })
 export class TasksService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/tasks';
+  private apiUrl = `${environment.apiUrl}/tasks`;
   
   allTasks = signal<TaskFromServer[]>([]);
   isLoading = signal(false);

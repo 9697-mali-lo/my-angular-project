@@ -1,6 +1,7 @@
 // 1. ייבוא כלים מליבת Angular ומהמודול של HTTP
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 
 export interface User {
@@ -14,7 +15,7 @@ export class UsersService {
   
   // 4. הזרקת שירות ה-HttpClient המאפשר לבצע בקשות לרשת
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/users';
+  private apiUrl = `${environment.apiUrl}/users`;
   // 5. פונקציה למשיכת כל הצוותים מהשרת
   getUsers() {
     // מחזירה Observable של מערך צוותים. 

@@ -2,6 +2,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Team } from '../models/team';
+import { environment } from '../../environments/environment';
 
 export interface AddMemberPayload {
   userId: number;
@@ -13,7 +14,7 @@ export class TeamsService {
   
   // 4. הזרקת שירות ה-HttpClient המאפשר לבצע בקשות לרשת
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/teams';
+  private apiUrl = `${environment.apiUrl}/teams`;
   // 5. פונקציה למשיכת כל הצוותים מהשרת
   getTeams() {
     // מחזירה Observable של מערך צוותים. 
