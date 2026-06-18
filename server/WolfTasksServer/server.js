@@ -14,7 +14,26 @@ import usersRouter from './src/routes/users.js';
 
 const app = express();
 
-app.use(helmet());
+// app.use(helmet());
+// הגדרת הכתובות המורשות לבקשות רשת (connect-src)
+const allowedConnectSrc = ["'self'", "http://localhost:3000", "http://localhost:4200"];
+
+// אם אנחנו בסביבת פרודקשן ברנדר, נוסיף גם את הכתובת של רנדר
+if (process.env.NODE_ENV === 'production') {
+  allowedConnectSrc.push("https://my-angular-project-h5uv.onrender.com");
+}
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: allowedConnectSrc,
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:"],
+    },
+  })
+);
 app.use(cors({ origin: '*'}));
 app.use(express.json());
 app.use(morgan('dev'));
